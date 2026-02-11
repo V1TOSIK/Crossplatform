@@ -1,4 +1,6 @@
+import React from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
+import ModalExample from '../components/ModalExample';
 
 export default function HomeScreen({ navigation }) {
   return (
@@ -13,6 +15,8 @@ export default function HomeScreen({ navigation }) {
           })
         }
       />
+
+      <ModalExample />
     </View>
   );
 }
