@@ -9,11 +9,6 @@ export default function HomeScreen() {
       <Text style={{ fontSize: 20, marginBottom: 20 }}>
         Produx Mobile
       </Text>
-
-      <Button
-        title="Go to Tasks"
-        onPress={() => navigation.navigate('Tasks')}
-      />
     </View>
   );
 }
