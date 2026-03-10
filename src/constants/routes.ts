@@ -3,13 +3,8 @@ export const ROUTES = {
   TASKS: "Tasks",
   PRODUCT: "Product",
   FAVORITES: "Favorites",
-  CART: "Cart",
+  CATEGORY: "Category",
   LOGIN: "Login",
-
-  ACCOUNT: "AccountTabs",
-
+  REGISTER: "Register",
   PROFILE: "Profile",
-  ORDERS: "Orders",
-  SETTINGS: "Settings",
-  CHANGE_PASSWORD: "ChangePassword",
 } as const
