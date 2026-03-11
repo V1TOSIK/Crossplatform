@@ -77,7 +77,6 @@ export const styles = StyleSheet.create({
   container: {
     padding: 20,
     flex: 1,
-    alignItems: 'center',
   },
   input: {
     borderWidth: 1,
