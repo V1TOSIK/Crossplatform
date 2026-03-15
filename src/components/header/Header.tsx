@@ -1,4 +1,4 @@
-// Header.tsx
+// header.tsx
 import { View, Text, Pressable, StyleSheet } from "react-native";
 import { ROUTES } from "../../constants/routes";
 import {useNavigation} from "@react-navigation/native";
@@ -14,6 +14,10 @@ export default function Header() {
 
                 <Pressable onPress={() => navigation.navigate(ROUTES.PROFILE)}>
                     <Text style={styles.button}>Profile</Text>
+                </Pressable>
+
+                <Pressable onPress={() => navigation.navigate(ROUTES.LOGIN)}>
+                    <Text style={styles.button}>Login</Text>
                 </Pressable>
             </View>
         </View>

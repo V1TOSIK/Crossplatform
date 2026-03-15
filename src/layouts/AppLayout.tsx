@@ -1,7 +1,7 @@
 import { View, StyleSheet } from "react-native";
 import MainStackNavigator from "../navigation/MainStackNavigator";
-import Footer from "../components/Footer/Footer";
-import Header from "../components/Header/Header";
+import Footer from "../components/footer/Footer";
+import Header from "../components/header/Header";
 
 export default function AppLayout() {
     return (
