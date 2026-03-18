@@ -1,6 +1,5 @@
 import { View, TextInput, Button, FlatList, Text } from 'react-native';
 import { useEffect, useState } from 'react';
-import { TaskDto } from '../types/task.types';
 import { db } from '../config/firebase';
 import { collection, addDoc, getDocs, Timestamp } from 'firebase/firestore';
 import { StyleSheet } from 'react-native';
@@ -8,7 +7,7 @@ import { StyleSheet } from 'react-native';
 export default function HomeScreen() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [tasks, setTasks] = useState<TaskDto[]>([]);
+  const [tasks, setTasks] = useState([]);
 
   const tasksCollection = collection(db, 'tasks');
 
@@ -29,9 +28,9 @@ export default function HomeScreen() {
   const loadTasks = async () => {
     const data = await getDocs(tasksCollection);
 
-    const tasksList: TaskDto[] = data.docs.map(doc => ({
+    const tasksList = data.docs.map(doc => ({
       id: doc.id,
-      ...(doc.data() as Omit<TaskDto, 'id'>)
+      ...doc.data()
     }));
 
     setTasks(tasksList);
