@@ -1,5 +1,3 @@
-export interface Result<T>{
-    isSuccess: boolean,
-    value?: T
-    message?: string
-}
+export type Result<T> =
+    | { isSuccess: true; value: T }
+    | { isSuccess: false; message: string };

@@ -1,20 +1,13 @@
-export interface ApiResult<T> {
-    isSuccess: boolean
-    value?: T
-    error?: ApiError
-}
-
-export interface ApiResponse {
-    isSuccess: boolean
-    error?: ApiError
-}
+export type ApiResponse<T> =
+    | { isSuccess: true; value: T }
+    | { isSuccess: false; error: ApiError };
 
 export interface ApiError {
     message: string
-    code: number
+    code: string
 }
 
-export interface PaginationResult<T> {
+export interface PaginationResponse<T> {
     items: T[]
     total: number
     page: number

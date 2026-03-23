@@ -3,7 +3,7 @@ import {Button, Pressable, Text, TextInput, View} from "react-native";
 import {useState} from "react";
 import { register } from "../services/auth/auth-service";
 import { ROUTES } from "../constants/routes";
-import {styles} from "./TaskScreen";
+import {useAuth} from "../context/AuthContext";
 
 interface RegisterFormData {
     credential: string,
@@ -18,8 +18,9 @@ export default function RegisterScreen() {
         password: "",
         password_confirmation: "",
     });
+    const { login: setAuthLogin } = useAuth();
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState<string>("");
+    const [errorMessage, setErrorMessage] = useState("");
 
     const handleRegister = async () => {
         if (loading) return;
@@ -28,24 +29,23 @@ export default function RegisterScreen() {
             setLoading(true);
 
             if (!registerForm.credential || !registerForm.password || !registerForm.password_confirmation) {
-                setError("All fields are required");
+                setErrorMessage("All fields are required");
                 return;
             }
 
             if (registerForm.password !== registerForm.password_confirmation) {
-                setError("Passwords do not match");
+                setErrorMessage("Passwords do not match");
                 return;
             }
 
             const res = await register(registerForm.credential, registerForm.password);
 
-            if (res.isSuccess){
-                navigation.navigate(ROUTES.HOME);
+            if (res.isSuccess == true){
+                setAuthLogin(res.value);
+                navigation.navigate(ROUTES.HOME)
             }
-            else{
-                setError(res.message);
-                console.log(res.message);
-            }
+            else
+                setErrorMessage(res.message);
 
         } catch (err) {
             console.error(err);
@@ -56,9 +56,6 @@ export default function RegisterScreen() {
 
     return (
         <View style={{ padding: 20 }}>
-            <View style={{position: "absolute", right: 1, top: 1}}>
-                <Text>{error}</Text>
-            </View>
             <Text style={{ fontSize: 20, marginBottom: 20 }}>
                 Register
             </Text>
@@ -105,6 +102,10 @@ export default function RegisterScreen() {
                         setRegisterForm(prev => ({ ...prev, password_confirmation: text }))
                     }
                 />
+
+                <Text style={{
+                    color: "#c20d00",
+                }}>{errorMessage}</Text>
 
                 <Button
                     title={loading ? "Loading..." : "Register"}

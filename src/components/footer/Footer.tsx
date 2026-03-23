@@ -11,16 +11,12 @@ export default function Footer() {
                     <Text style={styles.button}>Home</Text>
                 </Pressable>
 
-                <Pressable onPress={() => navigation.navigate(ROUTES.FAVORITES)}>
-                    <Text style={styles.button}>Favourites</Text>
+                <Pressable onPress={() => navigation.navigate(ROUTES.PRODUCT)}>
+                    <Text style={styles.button}>Products</Text>
                 </Pressable>
 
-                <Pressable onPress={() => navigation.navigate(ROUTES.CATEGORY)}>
-                    <Text style={styles.button}>Category</Text>
-                </Pressable>
-
-                <Pressable onPress={() => navigation.navigate(ROUTES.TASKS)}>
-                    <Text style={styles.button}>Tasks</Text>
+                <Pressable onPress={() => navigation.navigate(ROUTES.PROFILE)}>
+                    <Text style={styles.button}>Profile</Text>
                 </Pressable>
             </View>
         </View>

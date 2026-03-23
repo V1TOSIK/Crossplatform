@@ -3,6 +3,8 @@ import {Button, Pressable, Text, TextInput, View} from "react-native";
 import {useState} from "react";
 import { login } from "../services/auth/auth-service";
 import { ROUTES } from "../constants/routes";
+import {Result} from "../types/service.types";
+import { useAuth } from '../context/AuthContext';
 
 interface LoginFormData {
     credential: string,
@@ -10,12 +12,14 @@ interface LoginFormData {
 }
 
 export default function LoginScreen() {
+    const { login: setAuthLogin } = useAuth();
     const navigation = useNavigation<any>();
     const [loginForm, setLoginForm] = useState<LoginFormData>({
         credential: "",
         password: "",
     });
     const [loading, setLoading] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
 
     const handleLogin = async () => {
         if (loading) return;
@@ -23,12 +27,14 @@ export default function LoginScreen() {
         try {
             setLoading(true);
 
-            const res = await login(loginForm.credential, loginForm.password);
+            const res : Result<string> = await login(loginForm.credential, loginForm.password);
 
-            if (res.isSuccess)
+            if (res.isSuccess == true){
+                setAuthLogin(res.value);
                 navigation.navigate(ROUTES.HOME);
+            }
             else
-                console.log(res.message);
+                setErrorMessage(res.message);
 
         } catch (err) {
             console.error(err);
@@ -70,6 +76,10 @@ export default function LoginScreen() {
                         setLoginForm(prev => ({ ...prev, password: text }))
                     }
                 />
+
+                <Text style={{
+                    color: "#c20d00",
+                }}>{errorMessage}</Text>
 
                 <Button
                     title={loading ? "Loading..." : "Login"}

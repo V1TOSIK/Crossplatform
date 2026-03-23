@@ -1,13 +1,14 @@
 import { AuthApi } from '../../api/auth.api'
-import {LoginRequest, RegisterRequest} from "../../types/auth.types";
+import {AuthData, LoginRequest, RegisterRequest} from "../../types/auth.types";
 import {Result} from "../../types/service.types";
 import {AccessTokenStorage} from "../../storage/access-token.storage";
 import {RefreshTokenStorage} from "../../storage/refresh-token.storage";
+import {ApiResponse} from "../../types/api.types";
 
 export async function login(
     credential: string,
     password: string
-): Promise<Result<void>> {
+): Promise<Result<string>> {
 
     if (!credential || !password) {
         return {
@@ -23,9 +24,9 @@ export async function login(
             password
         }
 
-        const response = await AuthApi.login(request)
+        const response: ApiResponse<AuthData> = await AuthApi.login(request)
 
-        if (!response.isSuccess) {
+        if (response.isSuccess == false) {
             return {
                 isSuccess: false,
                 message: response.error.message
@@ -34,8 +35,7 @@ export async function login(
 
         await AccessTokenStorage.setAccessToken(response.value.accessToken)
         await RefreshTokenStorage.setRefreshToken(response.value.refreshToken)
-
-        return { isSuccess: true }
+        return { isSuccess: true, value: response.value.accessToken }
 
     } catch (err: any) {
 
@@ -49,8 +49,8 @@ export async function login(
 
 export async function register(
     credential: string,
-    password: string
-) : Promise<Result<void>> {
+    password: string,
+) : Promise<Result<string>> {
     if (!credential || !password) {
         return {
             isSuccess: false,
@@ -67,7 +67,7 @@ export async function register(
 
         const response = await AuthApi.register(request)
 
-        if (!response.isSuccess) {
+        if (response.isSuccess == false) {
             return {
                 isSuccess: false,
                 message: response.error.message
@@ -76,8 +76,7 @@ export async function register(
 
         await AccessTokenStorage.setAccessToken(response.value.accessToken)
         await RefreshTokenStorage.setRefreshToken(response.value.refreshToken)
-
-        return { isSuccess: true }
+        return { isSuccess: true, value: response.value.accessToken }
 
     } catch (err: any) {
 

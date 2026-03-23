@@ -1,24 +1,27 @@
 // header.tsx
-import { View, Text, Pressable, StyleSheet } from "react-native";
+import { View, Text, Button, Pressable, StyleSheet } from "react-native";
 import { ROUTES } from "../../constants/routes";
-import {useNavigation} from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
+import { useAuth } from '../../context/AuthContext';
+
 
 export default function Header() {
+    const { isLoggedIn, logout } = useAuth();
     const navigation = useNavigation<any>();
     return (
         <View style={styles.container}>
-            <Pressable onPress={() => navigation.navigate(ROUTES.HOME)}>
-                <Text style={styles.button}>LOGO</Text>
-            </Pressable>
             <View style={styles.navigationMenu}>
 
-                <Pressable onPress={() => navigation.navigate(ROUTES.PROFILE)}>
-                    <Text style={styles.button}>Profile</Text>
-                </Pressable>
-
-                <Pressable onPress={() => navigation.navigate(ROUTES.LOGIN)}>
-                    <Text style={styles.button}>Login</Text>
-                </Pressable>
+                <View style={{ flexDirection: 'row' }}>
+                    {isLoggedIn ? (
+                        <Button title="Logout" onPress={logout} />
+                    ) : (
+                        <>
+                            <Button title="Login" onPress={() => navigation.navigate(ROUTES.LOGIN)} />
+                            <Button title="Register" onPress={() => navigation.navigate(ROUTES.REGISTER)} />
+                        </>
+                    )}
+                </View>
             </View>
         </View>
     );
@@ -43,5 +46,5 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: "bold",
         marginRight: 20
-    },
-});
+    }
+})
